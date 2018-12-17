@@ -28,6 +28,7 @@ import (
 
 	"github.com/spf13/cobra"
 
+	"github.com/raynetkft/zfsbackup-go/backends"
 	"github.com/someone1/zfsbackup-go/backends"
 	"github.com/someone1/zfsbackup-go/backup"
 	"github.com/someone1/zfsbackup-go/helpers"
@@ -73,6 +74,7 @@ func init() {
 	sendCmd.Flags().StringVarP(&jobInfo.IncrementalSnapshot.Name, "incremental", "i", "", "See the -i flag on zfs send for more information")
 	sendCmd.Flags().StringVarP(&fullIncremental, "intermediary", "I", "", "See the -I flag on zfs send for more information")
 	sendCmd.Flags().BoolVarP(&jobInfo.Properties, "properties", "p", false, "See the -p flag on zfs send for more information.")
+	sendCmd.Flags().BoolVar(&jobInfo.Raw, "raw", false, "Send encrypted raw volume.")
 
 	// Specific to download only
 	sendCmd.Flags().Uint64Var(&jobInfo.VolumeSize, "volsize", 200, "the maximum size (in MiB) a volume should be before splitting to a new volume. Note: zfsbackup will try its best to stay close/under this limit but it is not garaunteed.")
@@ -110,6 +112,8 @@ func ResetSendJobInfo() {
 	jobInfo.Full = false
 	jobInfo.Incremental = false
 	jobInfo.FullIfOlderThan = -1 * time.Minute
+
+	jobInfo.Raw = false
 
 	jobInfo.MaxFileBuffer = 5
 	jobInfo.MaxParallelUploads = 4

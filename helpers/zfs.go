@@ -105,6 +105,11 @@ func GetZFSSendCommand(ctx context.Context, j *JobInfo) *exec.Cmd {
 	// Prepare the zfs send command
 	zfsArgs := []string{"send"}
 
+	if j.Raw {
+		AppLogger.Infof("Send encrypted raw volume.")
+		zfsArgs = append(zfsArgs, "--raw")
+	}
+
 	if j.Replication {
 		AppLogger.Infof("Enabling the replication (-R) flag on the send.")
 		zfsArgs = append(zfsArgs, "-R")

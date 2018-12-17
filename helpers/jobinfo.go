@@ -70,6 +70,9 @@ type JobInfo struct {
 	LocalVolume string `json:"-"`
 	AutoRestore bool   `json:"-"`
 
+	// Encrypted send
+	Raw bool `json:"-"`
+
 	Destinations       []string        `json:"-"`
 	VolumeSize         uint64          `json:"-"`
 	ManifestPrefix     string          `json:"-"`
